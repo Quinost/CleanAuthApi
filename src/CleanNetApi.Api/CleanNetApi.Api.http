@@ -1,0 +1,6 @@
+@CleanNetApi.Api_HostAddress = http://localhost:5192
+
+GET {{CleanNetApi.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
