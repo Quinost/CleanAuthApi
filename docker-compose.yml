@@ -1,0 +1,30 @@
+services:
+  cleanauth.api:
+    image: cleannet-api
+    build:
+      context: .
+      dockerfile: src/CleanAuth.Api/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ConnectionStrings__DefaultDatabase=Server=cleanauth.mssql;Database=CleanAuthDB;User Id=sa;Password=Mine!Strong1Password;TrustServerCertificate=true
+    depends_on:
+      - cleanauth.mssql
+
+  cleanauth.mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Mine!Strong1Password
+      - MSSQL_PID=Express
+    ports:
+      - "1433:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+
+
+
+
+
+volumes:
+  mssql_data:
