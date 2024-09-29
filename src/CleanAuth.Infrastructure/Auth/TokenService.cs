@@ -12,7 +12,7 @@ namespace CleanAuth.Infrastructure.Auth;
 
 internal sealed class TokenService(
     JwtConfig jwtConfig,
-    UserManager userManager,
+    IUserManager userManager,
     IJwtBlackList jwtBlackList) : ITokenService
 {
     public async Task<Result<TokenResultDto>> Login(string username, string password, CancellationToken token = default)

@@ -8,11 +8,12 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="8.0.8" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Clean.Shared\Clean.Shared.csproj" />
     <ProjectReference Include="..\CleanAuth.Domain\CleanAuth.Domain.csproj" />
+    <ProjectReference Include="..\Clean\Clean.Shared.csproj" />
   </ItemGroup>
 
 </Project>

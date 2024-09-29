@@ -9,6 +9,7 @@ using CleanAuth.Domain.Interfaces;
 using CleanAuth.Application;
 using CleanAuth.Infrastructure.Workers;
 using CleanAuth.Infrastructure.Interfaces;
+using CleanAuth.Infrastructure.Repositories;
 
 namespace CleanAuth.Infrastructure;
 
@@ -23,22 +24,29 @@ public static class InfrastructureExtension
         service.AddHostedService<BlackListExpiredWorker>();
 
         service.AddSingleton<IJwtBlackList, JwtBlackList>();
+
         service.AddTransient<ITokenService, TokenService>();
-        service.AddTransient<UserManager>();
+        service.AddTransient<IUserManager, UserManager>();
+
+        service.AddScoped<IUserRepository, UserRepository>();
 
         return service;
     }
 
-    public static IApplicationBuilder AddInstrastructureApplications(this IApplicationBuilder app)
+    public static IApplicationBuilder MigrateDatabase(this IApplicationBuilder app)
     {
-        app.UseMiddleware<BlackListMiddleware>();
-
         using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>()!.CreateScope())
         {
             var context = serviceScope.ServiceProvider.GetRequiredService<CleanDbContext>();
             context.Database.Migrate();
         }
 
+        return app;
+    }
+
+    public static IApplicationBuilder AddBlacklistMiddleware(this IApplicationBuilder app)
+    {
+        app.UseMiddleware<BlackListMiddleware>();
         return app;
     }
 }

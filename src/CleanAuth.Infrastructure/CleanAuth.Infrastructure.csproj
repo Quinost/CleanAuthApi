@@ -25,7 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Clean.Shared\Clean.Shared.csproj" />
     <ProjectReference Include="..\CleanAuth.Application\CleanAuth.Application.csproj" />
     <ProjectReference Include="..\CleanAuth.Domain\CleanAuth.Domain.csproj" />
   </ItemGroup>

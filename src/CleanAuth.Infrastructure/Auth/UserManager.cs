@@ -1,11 +1,12 @@
 ﻿using CleanAuth.Domain.Entities;
 using CleanAuth.Infrastructure.EF;
+using CleanAuth.Infrastructure.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace CleanAuth.Infrastructure.Auth;
 
-internal class UserManager(CleanDbContext context)
+internal sealed class UserManager(CleanDbContext context) : IUserManager
 {
     public Task<User?> FindByNameAsync(string username, CancellationToken token = default)
     {

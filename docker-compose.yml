@@ -1,3 +1,4 @@
+name: clean-auth-dc
 services:
   cleanauth.api:
     image: cleannet-api
@@ -7,7 +8,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - ConnectionStrings__DefaultDatabase=Server=cleanauth.mssql;Database=CleanAuthDB;User Id=sa;Password=Mine!Strong1Password;TrustServerCertificate=true
+      - ConnectionStrings__DefaultDatabase=Server=cleanauth.mssql;Database=CleanAuthDB;User Id=sa;Password=c33mR!AB5D3@8k6Oi72ZL;TrustServerCertificate=true
     depends_on:
       - cleanauth.mssql
 
@@ -15,7 +16,7 @@ services:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=Mine!Strong1Password
+      - SA_PASSWORD=c33mR!AB5D3@8k6Oi72ZL
       - MSSQL_PID=Express
     ports:
       - "1433:1433"

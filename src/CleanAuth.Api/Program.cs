@@ -26,15 +26,16 @@ public class Program
 
         app.UseHttpsRedirection();
 
-        app.UseAuthentication();
+        app.AddBlacklistMiddleware();
 
+        app.UseAuthentication();
         app.UseAuthorization();
 
-        app.AddInstrastructureApplications();
+        app.MigrateDatabase();
 
         app.MapControllers();
 
-        app.MapGet("/", (IConfiguration configuration) => $"Api works! {DateTime.Now:yyyy-MM-dd HH:mm} - {configuration.GetConnectionString("DefaultDatabase")}");
+        app.MapGet("/", (IConfiguration configuration) => $"Api works! {DateTime.UtcNow:yyyy-MM-dd HH:mm}");
 
         app.Run();
     }
