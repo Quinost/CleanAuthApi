@@ -19,6 +19,9 @@ public static class InfrastructureExtension
     {
         service.AddDbContext<CleanDbContext>(x => x.UseSqlServer(configuration.GetConnectionString("DefaultDatabase")));
 
+        service.AddHealthChecks()
+               .AddSqlServer(configuration.GetConnectionString("DefaultDatabase")!);
+
         service.AddMediatRHandlers();
 
         service.AddHostedService<BlackListExpiredWorker>();
@@ -29,6 +32,7 @@ public static class InfrastructureExtension
         service.AddTransient<IUserManager, UserManager>();
 
         service.AddScoped<IUserRepository, UserRepository>();
+        service.AddScoped<IRsaKeyRepository, RsaKeyRepository>();
 
         return service;
     }

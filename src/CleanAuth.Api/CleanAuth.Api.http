@@ -1,6 +1,6 @@
-### @CleanAuth.Api_HostAddress = https://localhost:44343
+### @CleanAuth.Api_HostAddress = https://localhost:7022
 @CleanAuth.Api_HostAddress = http://localhost:8080
-@JwtToken = eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiRGVmYXVsdFVzZXIiLCJuYmYiOjE3Mjc1MzgwNTgsImV4cCI6MTcyNzU0NTI1OCwiaXNzIjoiQ2xlYW5OZXRfQVBJIiwiYXVkIjoiQ2xlYW5OZXRfQVBJIn0.S7Ln8xMYD2i0HAOyl_7RTaGkJQewf49YE9Y8etGi2Y0
+@JwtToken = eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiRGVmYXVsdFVzZXIiLCJuYmYiOjE3Mjc2Mjg0MTIsImV4cCI6MTcyNzYzNTYxMiwiaXNzIjoiQ2xlYW5OZXRfQVBJIiwiYXVkIjoiQ2xlYW5OZXRfQVBJIn0.RtazU00IPCYRJeBKArNa2I8UpJ6iPmbUNdmy29MAYoDWwK9KTFqsmoOAwFtLUU9xgOoNlavRFN2Ih88ZAxGKJaV5DmDBq0iwTwvDpgjWzDKZL0AR5za_DWlTuapM7hGG4yEEVYwaPoriKZrpm0dlbpnqfWv4Ku-4YzDnmOkZcRaUB8DKXJrZnJXRb6ucJhaLRIxD4Ymk1BESbFvmjnFAirXJxdjE5bJxuWuLegGDOkVvPh6NQ3hciQb4PZtiDK3CWoCq17uWQnIM8rwVlMMtXOk8nFNVllcDaOkXOWzWONo7Sf5hfecpkT3tecWLTQwEST25pLZ7sMlDo-Al-mG-7w
 
 POST {{CleanAuth.Api_HostAddress}}/api/auth/login
 Content-Type: application/json
@@ -20,7 +20,7 @@ GET {{CleanAuth.Api_HostAddress}}/api/user/aa5d84da-88cd-45a2-b5fb-233fd99b061d
 Authorization: Bearer {{JwtToken}}
 ###
 
-GET {{CleanAuth.Api_HostAddress}}/api/user?pageNumber=1&pageSize=1&filter=ty
+GET {{CleanAuth.Api_HostAddress}}/api/user?pageNumber=1&pageSize=2&filter=
 Authorization: Bearer {{JwtToken}}
 
 ###
@@ -33,5 +33,13 @@ Content-Type: application/json
     "userName": "TypicalUser",
     "password": "securePass"
 }
+
+###
+
+GET {{CleanAuth.Api_HostAddress}}/api/auth/publickey
+
+###
+
+GET {{CleanAuth.Api_HostAddress}}/health
 
 ###

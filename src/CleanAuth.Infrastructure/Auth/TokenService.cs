@@ -6,7 +6,7 @@ using CleanAuth.Infrastructure.Interfaces;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
+using System.Security.Cryptography;
 
 namespace CleanAuth.Infrastructure.Auth;
 
@@ -52,9 +52,10 @@ internal sealed class TokenService(
         var expiry = now.AddMinutes(jwtConfig.AccessTokenExpiration);
         var claims = new[] { new Claim(ClaimTypes.Name, username) };
 
-        var signingCredentials = new SigningCredentials(
-            new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtConfig.Secret)),
-            SecurityAlgorithms.HmacSha256Signature);
+        var rsa = RSA.Create();
+        rsa.ImportFromPem(jwtConfig.PrivateKeyPEM);
+
+        var signingCredentials = new SigningCredentials(new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256);
 
         var accessToken = new JwtSecurityToken(
             issuer: jwtConfig.Issuer,
@@ -73,6 +74,9 @@ internal sealed class TokenService(
         if (string.IsNullOrWhiteSpace(token))
             return default;
 
+        var rsa = RSA.Create();
+        rsa.ImportFromPem(jwtConfig.PublicKeyPEM);
+
         var principal = new JwtSecurityTokenHandler()
             .ValidateToken(token,
                 new TokenValidationParameters
@@ -82,7 +86,7 @@ internal sealed class TokenService(
                     ValidateAudience = true,
                     ValidateLifetime = true,
                     ValidIssuer = jwtConfig.Issuer,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtConfig.Secret)),
+                    IssuerSigningKey = new RsaSecurityKey(rsa),
                     ValidAudience = jwtConfig.Audience,
                     ClockSkew = TimeSpan.Zero
                 },

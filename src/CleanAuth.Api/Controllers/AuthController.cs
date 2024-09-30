@@ -1,4 +1,5 @@
 ﻿using CleanAuth.Application.Commands.Auth;
+using CleanAuth.Application.Queries.Auth;
 using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -25,5 +26,12 @@ public class AuthController(IMediator mediator) : ControllerBase
         var accessToken = await HttpContext.GetTokenAsync(JwtBearerDefaults.AuthenticationScheme, "access_token");
         await mediator.Send(new LogoutCommand(accessToken!));
         return Ok();
+    }
+
+    [AllowAnonymous]
+    [HttpGet("publickey")]
+    public async Task<IActionResult> GetPublicKey()
+    {
+        return Ok(await mediator.Send(new GetPublicKeyQuery()));
     }
 }

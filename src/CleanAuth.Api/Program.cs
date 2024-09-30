@@ -2,7 +2,7 @@ using CleanAuth.Infrastructure;
 using CleanAuth.Infrastructure.Auth;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using System.Security.Cryptography;
 
 namespace CleanAuth.Api;
 
@@ -37,12 +37,17 @@ public class Program
 
         app.MapGet("/", (IConfiguration configuration) => $"Api works! {DateTime.UtcNow:yyyy-MM-dd HH:mm}");
 
+        app.MapHealthChecks("/health");
+
         app.Run();
     }
 
     private static void Authorization(WebApplicationBuilder builder)
     {
-        var jwtConfig = builder.Configuration.GetSection("JwtCfg").Get<JwtConfig>()!;
+        JwtConfig jwtConfig = GetJwtConfig(builder);
+
+        var rsa = RSA.Create();
+        rsa.ImportFromPem(jwtConfig.PublicKeyPEM);
 
         builder.Services.AddSingleton(jwtConfig);
 
@@ -61,10 +66,23 @@ public class Program
                 ValidateAudience = true,
                 ValidateLifetime = true,
                 ValidIssuer = jwtConfig.Issuer,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtConfig.Secret)),
+                IssuerSigningKey = new RsaSecurityKey(rsa),
                 ValidAudience = jwtConfig.Audience,
                 ClockSkew = TimeSpan.Zero
             };
         });
+    }
+
+    private static JwtConfig GetJwtConfig(WebApplicationBuilder builder)
+    {
+        var jwtConfig = builder.Configuration.GetSection("JwtCfg").Get<JwtConfig>()!;
+        var publicKeyPEM = File.ReadAllText(Directory.GetCurrentDirectory() + jwtConfig.PublicKeyPEM);
+        var privateKeyPEM = File.ReadAllText(Directory.GetCurrentDirectory() + jwtConfig.PrivateKeyPEM);
+
+        return jwtConfig with
+        {
+            PublicKeyPEM = publicKeyPEM,
+            PrivateKeyPEM = privateKeyPEM
+        };
     }
 }
