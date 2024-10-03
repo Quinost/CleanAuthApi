@@ -32,7 +32,7 @@ namespace Clean.Shared
     }
     public partial class Result : ResultBase
     {
-        protected Result(bool isSuccess) : base(isSuccess)
+        internal Result(bool isSuccess) : base(isSuccess)
         {
         }
     }
@@ -51,8 +51,19 @@ namespace Clean.Shared
             Value = value;
         }
 
-        public static implicit operator Result(Result<T> result) => (result as Result) ?? Result.Ok();
-        public static implicit operator Result<T>(Result result) => (result as Result<T>) ?? Result.Ok<T>();
+        public static implicit operator Result<T>(Result result)
+        {
+            var newResult = new Result<T>(result.IsSuccess);
+            newResult.AddError(result.Errors.ToArray());
+            return newResult;
+        }
+
+        public static implicit operator Result(Result<T> result)
+        {
+            var newResult = new Result(result.IsSuccess);
+            newResult.AddError(result.Errors.ToArray());
+            return newResult;
+        }
     }
 
     public partial class Result
@@ -87,6 +98,13 @@ namespace Clean.Shared
         public static Result<T> Failed<T>()
         {
             return new Result<T>(false);
+        }
+
+        public static Result<T> Failed<T>(string error)
+        {
+            var result = new Result<T>(false);
+            result.AddError(error);
+            return result;
         }
 
         public static Result<T> Failed<T>(T value)

@@ -42,15 +42,18 @@ internal sealed class TokenService(
     private TokenResultDto GenerateToken(User user)
     {
         var date = DateTime.UtcNow;
-        var token = GenerateAccessToken(date, user.Username);
+        var token = GenerateAccessToken(date, user);
 
         return new TokenResultDto(token);
     }
 
-    private string GenerateAccessToken(DateTime now, string username)
+    private string GenerateAccessToken(DateTime now, User user)
     {
         var expiry = now.AddMinutes(jwtConfig.AccessTokenExpiration);
-        var claims = new[] { new Claim(ClaimTypes.Name, username) };
+        var claims = new[] { 
+            new Claim(ClaimTypes.Name, user.Username),
+            new Claim(ClaimTypes.Role, user.Role!.Name)
+        };
 
         var rsa = RSA.Create();
         rsa.ImportFromPem(jwtConfig.PrivateKeyPEM);

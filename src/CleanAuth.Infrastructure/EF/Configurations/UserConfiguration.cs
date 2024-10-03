@@ -1,5 +1,4 @@
 ﻿using CleanAuth.Domain.Entities;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -11,5 +10,6 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
     {
         builder.Property(x => x.Username).IsRequired();
         builder.Property(x => x.Password).IsRequired();
+        builder.Property(x => x.RoleId).IsRequired();
     }
 }

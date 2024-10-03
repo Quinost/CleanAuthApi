@@ -10,7 +10,9 @@ internal sealed class UserManager(CleanDbContext context) : IUserManager
 {
     public Task<User?> FindByNameAsync(string username, CancellationToken token = default)
     {
-        return context.Users.FirstOrDefaultAsync(x => x.Username == username, token);
+        return context.Users
+            .Include(x => x.Role)
+            .FirstOrDefaultAsync(x => x.Username == username, token);
     }
 
     public bool CheckPassword(User user, string password)

@@ -20,11 +20,12 @@ public class UserController(IMediator mediator) : ControllerBase
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetUser(Guid id)
     {
-        var result = await mediator.Send(new GetUserQuery(id));
+        var result = await mediator.Send(new GetUserByIdQuery(id));
         return result is null ? NotFound() : Ok(result);
     } 
 
     [HttpPost]
+    [Authorize]
     public async Task<IActionResult> AddUser(AddUserCommand cmd)
     {
         var result = await mediator.Send(cmd);
