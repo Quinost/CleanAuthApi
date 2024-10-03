@@ -1,4 +1,5 @@
-name: clean-auth-dc
+version: '3.3'
+
 services:
   cleanauth.api:
     image: cleannet-api

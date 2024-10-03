@@ -19,7 +19,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{0F197EBE
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clean.Shared", "src\Clean\Clean.Shared.csproj", "{6A3A28BC-B6A2-4C1F-BCC5-D8F719D61B91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CleanAuth.Tests", "tests\CleanAuth.Tests\CleanAuth.Tests.csproj", "{90A4EB95-D363-4861-B150-1221132AAFE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CleanAuth.Tests", "tests\CleanAuth.Tests\CleanAuth.Tests.csproj", "{90A4EB95-D363-4861-B150-1221132AAFE6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B6C8D747-82EF-41F8-B57E-F3F96BA92F95}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
