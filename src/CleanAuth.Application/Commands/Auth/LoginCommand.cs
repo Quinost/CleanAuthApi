@@ -1,5 +1,4 @@
 ﻿using CleanAuth.Domain.Dtos.Auth;
-using CleanAuth.Domain.Interfaces;
 
 namespace CleanAuth.Application.Commands.Auth;
 public record LoginCommand(string UserName, string Password) : IRequest<Result<TokenResultDto>>;

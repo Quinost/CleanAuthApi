@@ -9,3 +9,4 @@
 - ORM (EF)
 - Token blacklist
 - Docker compose
+- Roles

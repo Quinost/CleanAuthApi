@@ -1,6 +1,4 @@
-﻿using CleanAuth.Domain.Interfaces;
-
-namespace CleanAuth.Application.Queries.Auth;
+﻿namespace CleanAuth.Application.Queries.Auth;
 public record GetPublicKeyQuery() : IRequest<string>;
 
 internal sealed class GetPublicKeyQueryHandler(IRsaKeyRepository rsaKeyRepository) : IRequestHandler<GetPublicKeyQuery, string>

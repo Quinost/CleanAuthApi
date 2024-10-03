@@ -3,5 +3,6 @@
 public record UserDto(
     Guid Id,
     string Username,
-    bool IsActive
-    );
+    bool IsActive,
+    Guid RoleId,
+    string? RoleName);

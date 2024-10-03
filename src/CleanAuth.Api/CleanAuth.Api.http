@@ -1,15 +1,23 @@
-### @CleanAuth.Api_HostAddress = https://localhost:7022
+#@CleanAuth.Api_HostAddress = https://localhost:7022
 @CleanAuth.Api_HostAddress = http://localhost:8080
-@JwtToken = eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiRGVmYXVsdFVzZXIiLCJuYmYiOjE3Mjc2Mjg0MTIsImV4cCI6MTcyNzYzNTYxMiwiaXNzIjoiQ2xlYW5OZXRfQVBJIiwiYXVkIjoiQ2xlYW5OZXRfQVBJIn0.RtazU00IPCYRJeBKArNa2I8UpJ6iPmbUNdmy29MAYoDWwK9KTFqsmoOAwFtLUU9xgOoNlavRFN2Ih88ZAxGKJaV5DmDBq0iwTwvDpgjWzDKZL0AR5za_DWlTuapM7hGG4yEEVYwaPoriKZrpm0dlbpnqfWv4Ku-4YzDnmOkZcRaUB8DKXJrZnJXRb6ucJhaLRIxD4Ymk1BESbFvmjnFAirXJxdjE5bJxuWuLegGDOkVvPh6NQ3hciQb4PZtiDK3CWoCq17uWQnIM8rwVlMMtXOk8nFNVllcDaOkXOWzWONo7Sf5hfecpkT3tecWLTQwEST25pLZ7sMlDo-Al-mG-7w
+@JwtToken = eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiVHlwaWNhbFVzZXIiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJEZWZhdWx0Um9sZSIsIm5iZiI6MTcyODExMzA0MCwiZXhwIjoxNzI4MTIwMjQwLCJpc3MiOiJDbGVhbk5ldCIsImF1ZCI6ImFwaSJ9.PLICIsyET6lpfjNGpfZF29gaml69drp0qZO_dUGgxqLZPX8xoN27ms-rM2OGD0nq2YyFM7RqQxzaeUooVixX5IDpkvWf5u0qW_OVa2_da219HK_T7By-xlXgX0tQq8ABhH5liAK3RzbyneIVTw8Deexa8574FlL7RKVNdYmrk40O3R6dP1YABskvcs2GRbvGvKVIwQW6GtSCWCQQdMnkwSHLUWpWOb1ktuav4HFFK4Tp35cSAX1FYdv9qSFap2tV1M3cc5Y8usuaund9leTwfmWIAjwGUE41DHwC3CAJLL4uZwWCI6ExoR1QRed6esX4ejyTb2LaZiJvymYp5W7PpQ
 
 POST {{CleanAuth.Api_HostAddress}}/api/auth/login
 Content-Type: application/json
 
 {
-    "userName": "DefaultUser",
+    "userName": "AdminUser",
     "password": "securePass"
 }
+###
 
+POST {{CleanAuth.Api_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+    "userName": "TypicalUser",
+    "password": "securePass"
+}
 ###
 
 POST {{CleanAuth.Api_HostAddress}}/api/auth/logout
@@ -22,7 +30,6 @@ Authorization: Bearer {{JwtToken}}
 
 GET {{CleanAuth.Api_HostAddress}}/api/user?pageNumber=1&pageSize=2&filter=
 Authorization: Bearer {{JwtToken}}
-
 ###
 
 POST {{CleanAuth.Api_HostAddress}}/api/user
@@ -31,15 +38,35 @@ Content-Type: application/json
 
 {
     "userName": "TypicalUser",
-    "password": "securePass"
+    "password": "securePass",
+    "roleId": "db5283cf-c4f1-4d01-be2e-33acefc6e835"
 }
-
 ###
 
 GET {{CleanAuth.Api_HostAddress}}/api/auth/publickey
-
 ###
 
 GET {{CleanAuth.Api_HostAddress}}/health
+###
+
+
+GET {{CleanAuth.Api_HostAddress}}/api/role?pageNumber=1&pageSize=2
+Authorization: Bearer {{JwtToken}}
+###
+
+GET {{CleanAuth.Api_HostAddress}}/api/role/f3f533fd-41c4-44f1-a67e-8062e6d207a6
+Authorization: Bearer {{JwtToken}}
+###
+
+DELETE {{CleanAuth.Api_HostAddress}}/api/role/f3f533fd-41c4-44f1-a67e-8062e6d207a6
+Authorization: Bearer {{JwtToken}}
+###
+
+POST {{CleanAuth.Api_HostAddress}}/api/role
+Content-Type: application/json
+Authorization: Bearer {{JwtToken}}
+{
+    "name": "DefaultRole"
+}
 
 ###

@@ -1,6 +1,4 @@
-﻿using CleanAuth.Domain.Interfaces;
-
-namespace CleanAuth.Application.Commands.Auth;
+﻿namespace CleanAuth.Application.Commands.Auth;
 public record LogoutCommand(string AccessToken) : IRequest;
 
 internal sealed class LogoutCommandHandler(ITokenService tokenService) : IRequestHandler<LogoutCommand>

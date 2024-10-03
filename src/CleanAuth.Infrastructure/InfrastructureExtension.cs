@@ -17,10 +17,10 @@ public static class InfrastructureExtension
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection service, IConfiguration configuration)
     {
-        service.AddDbContext<CleanDbContext>(x => x.UseSqlServer(configuration.GetConnectionString("DefaultDatabase")));
+        var connectionString = configuration.GetConnectionString("DefaultDatabase")!;
 
-        service.AddHealthChecks()
-               .AddSqlServer(configuration.GetConnectionString("DefaultDatabase")!);
+        service.AddDbContext<CleanDbContext>(x => x.UseSqlServer(connectionString));
+        service.AddHealthChecks().AddSqlServer(connectionString);
 
         service.AddMediatRHandlers();
 
@@ -33,6 +33,7 @@ public static class InfrastructureExtension
 
         service.AddScoped<IUserRepository, UserRepository>();
         service.AddScoped<IRsaKeyRepository, RsaKeyRepository>();
+        service.AddScoped<IRoleRepository, RoleRepository>();
 
         return service;
     }

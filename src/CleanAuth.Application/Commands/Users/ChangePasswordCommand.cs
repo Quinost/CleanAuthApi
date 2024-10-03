@@ -1,6 +1,4 @@
-﻿using CleanAuth.Domain.Entities;
-using CleanAuth.Domain.Interfaces;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
 namespace CleanAuth.Application.Commands.Users;
 
