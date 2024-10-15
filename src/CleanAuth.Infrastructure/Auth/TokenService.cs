@@ -42,12 +42,11 @@ internal sealed class TokenService(
     private TokenResultDto GenerateToken(User user)
     {
         var date = DateTime.UtcNow;
-        var token = GenerateAccessToken(date, user.Username);
 
-        return new TokenResultDto(token);
+        return GenerateAccessToken(date, user.Username);
     }
 
-    private string GenerateAccessToken(DateTime now, string username)
+    private TokenResultDto GenerateAccessToken(DateTime now, string username)
     {
         var expiry = now.AddMinutes(jwtConfig.AccessTokenExpiration);
         var claims = new[] { new Claim(ClaimTypes.Name, username) };
@@ -66,7 +65,7 @@ internal sealed class TokenService(
             signingCredentials: signingCredentials
             );
 
-        return new JwtSecurityTokenHandler().WriteToken(accessToken);
+        return new TokenResultDto(new JwtSecurityTokenHandler().WriteToken(accessToken), expiry);
     }
 
     private (ClaimsPrincipal Claims, JwtSecurityToken JwtToken) DecodeJwtToken(string token)

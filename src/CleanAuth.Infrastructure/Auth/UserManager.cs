@@ -8,9 +8,10 @@ namespace CleanAuth.Infrastructure.Auth;
 
 internal sealed class UserManager(CleanDbContext context) : IUserManager
 {
-    public Task<User?> FindByNameAsync(string username, CancellationToken token = default)
+    public async Task<User?> FindByNameAsync(string username, CancellationToken token = default)
     {
-        return context.Users.FirstOrDefaultAsync(x => x.Username == username, token);
+        var users = context.Users.ToList();
+        return await context.Users.FirstOrDefaultAsync(x => x.Username == username, token);
     }
 
     public bool CheckPassword(User user, string password)

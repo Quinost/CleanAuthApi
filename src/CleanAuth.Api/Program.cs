@@ -24,6 +24,15 @@ public class Program
 
         // Configure the HTTP request pipeline.
 
+#if DEBUG
+        app.UseCors(x =>
+        {
+            x.AllowAnyHeader();
+            x.AllowAnyMethod();
+            x.AllowAnyOrigin();
+        });
+#endif
+
         app.UseHttpsRedirection();
 
         app.AddBlacklistMiddleware();
