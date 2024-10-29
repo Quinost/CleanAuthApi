@@ -29,7 +29,7 @@ public class UserController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> AddUser(AddUserCommand cmd)
     {
         var result = await mediator.Send(cmd);
-        return result.IsSuccess ? Ok() : BadRequest(result);
+        return result.IsSuccess ? Ok(result) : BadRequest(result);
     }
 
     [HttpPut]
@@ -37,13 +37,13 @@ public class UserController(IMediator mediator) : ControllerBase
     {
         var username = HttpContext.User.Identity?.Name;
         var result = await mediator.Send(new ChangePasswordCommand(username, request.OldPassword, request.NewPassword));
-        return result.IsSuccess ? Ok() : BadRequest(result);
+        return result.IsSuccess ? Ok(result) : BadRequest(result);
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteUser(Guid id)
     {
         var result = await mediator.Send(new DeleteUserCommand(id));
-        return result.IsSuccess ? Ok() : BadRequest(result);
+        return result.IsSuccess ? Ok(result) : BadRequest(result);
     }
 }

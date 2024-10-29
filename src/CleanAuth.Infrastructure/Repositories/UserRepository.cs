@@ -7,7 +7,9 @@ namespace CleanAuth.Infrastructure.Repositories;
 internal sealed class UserRepository(CleanDbContext dbContext) : BaseRepository<User>(dbContext), IUserRepository
 {
     public override Task<User?> GetByIdAsync(Guid id, CancellationToken token = default)
-        => dbContext.Users.Include(x => x.Role).FirstOrDefaultAsync(x => x.Id == id, token);
+        => dbContext.Users
+            .Include(x => x.Role)
+            .FirstOrDefaultAsync(x => x.Id == id, token);
 
     public override async Task<ICollection<User>> GetAllPaginatedAsync(string filter,
                                                                        int pageNumber,

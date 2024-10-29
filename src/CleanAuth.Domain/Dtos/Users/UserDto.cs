@@ -5,4 +5,4 @@ public record UserDto(
     string Username,
     bool IsActive,
     Guid RoleId,
-    string? RoleName);
+    string RoleName);

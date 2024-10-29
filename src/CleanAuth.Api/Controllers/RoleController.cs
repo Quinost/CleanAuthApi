@@ -29,13 +29,13 @@ public class RoleController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> AddRole(AddRoleCommand cmd)
     {
         var result = await mediator.Send(cmd);
-        return result.IsSuccess ? Ok() : BadRequest(result);
+        return result.IsSuccess ? Ok(result) : BadRequest(result);
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<IActionResult> DeleteRole(Guid id)
     {
         var result = await mediator.Send(new DeleteRoleCommand(id));
-        return result.IsSuccess ? Ok() : BadRequest(result);
+        return result.IsSuccess ? Ok(result) : BadRequest(result);
     }
 }
