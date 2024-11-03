@@ -4,38 +4,43 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Builder;
 using CleanAuth.Infrastructure.EF;
 using CleanAuth.Infrastructure.Auth;
-using CleanAuth.Infrastructure.Middlewares;
 using CleanAuth.Domain.Interfaces;
 using CleanAuth.Application;
 using CleanAuth.Infrastructure.Workers;
 using CleanAuth.Infrastructure.Interfaces;
 using CleanAuth.Infrastructure.Repositories;
+using CleanAuth.Infrastructure.Infra;
 
 namespace CleanAuth.Infrastructure;
 
 public static class InfrastructureExtension
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection service, IConfiguration configuration)
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("DefaultDatabase")!;
 
-        service.AddDbContext<CleanDbContext>(x => x.UseSqlServer(connectionString));
-        service.AddHealthChecks().AddSqlServer(connectionString);
+        services.AddDbContext<CleanDbContext>(x => x.UseSqlServer(connectionString));
+        services.AddHealthChecks().AddSqlServer(connectionString);
 
-        service.AddMediatRHandlers();
+        services.AddMediatRHandlers();
 
-        service.AddHostedService<BlackListExpiredWorker>();
+        services.AddControllers(options =>
+        {
+            options.Filters.Add<FluentValidationActionFilter>();
+        });
 
-        service.AddSingleton<IJwtBlackList, JwtBlackList>();
+        services.AddHostedService<BlackListExpiredWorker>();
 
-        service.AddTransient<ITokenService, TokenService>();
-        service.AddTransient<IUserManager, UserManager>();
+        services.AddSingleton<IJwtBlackList, JwtBlackList>();
 
-        service.AddScoped<IUserRepository, UserRepository>();
-        service.AddScoped<IRsaKeyRepository, RsaKeyRepository>();
-        service.AddScoped<IRoleRepository, RoleRepository>();
+        services.AddTransient<ITokenService, TokenService>();
+        services.AddTransient<IUserManager, UserManager>();
 
-        return service;
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IRsaKeyRepository, RsaKeyRepository>();
+        services.AddScoped<IRoleRepository, RoleRepository>();
+
+        return services;
     }
 
     public static IApplicationBuilder MigrateDatabase(this IApplicationBuilder app)

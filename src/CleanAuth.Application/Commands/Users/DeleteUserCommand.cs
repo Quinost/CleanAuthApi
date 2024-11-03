@@ -1,5 +1,6 @@
-﻿namespace CleanAuth.Application.Commands.Users;
+﻿using FluentValidation;
 
+namespace CleanAuth.Application.Commands.Users;
 public record DeleteUserCommand(Guid UserId) : IRequest<Result>;
 
 internal sealed class DeleteUserCommandHandler(IUserRepository userRepository) : IRequestHandler<DeleteUserCommand, Result>
@@ -13,5 +14,14 @@ internal sealed class DeleteUserCommandHandler(IUserRepository userRepository) :
 
         await userRepository.DeleteAsync(user, cancellationToken);
         return Result.Ok();
+    }
+}
+
+internal sealed class DeleteUserCommandValidator: AbstractValidator<DeleteUserCommand>
+{
+    DeleteUserCommandValidator()
+    {
+        RuleFor(x => x.UserId)
+            .Must(x => x != Guid.Empty).WithMessage("Guid is required");
     }
 }

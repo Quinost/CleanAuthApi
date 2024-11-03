@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 
 namespace CleanAuth.Application.Commands.Users;
 
@@ -22,5 +23,22 @@ internal sealed class AddUserCommandHandler(IUserRepository userRepository) : IR
 
         await userRepository.AddAsync(newUser);
         return Result.Ok();
+    }
+}
+
+internal sealed class AddUserCommandValidator : AbstractValidator<AddUserCommand>
+{
+    AddUserCommandValidator()
+    {
+        RuleFor(x => x.UserName)
+            .NotEmpty().WithMessage("Username is required")
+            .MinimumLength(3).WithMessage("Username min length is 3");
+
+        RuleFor(x => x.Password)
+            .NotEmpty().WithMessage("Password is required")
+            .MinimumLength(5).WithMessage("Password min length is 5");
+
+        RuleFor(x => x.RoleId)
+            .Must(x => x != Guid.Empty).WithMessage("Role is required");
     }
 }

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
 
-namespace CleanAuth.Infrastructure.Middlewares;
+namespace CleanAuth.Infrastructure.Infra;
 
 internal sealed class BlackListMiddleware(RequestDelegate next, IJwtBlackList jwtBlackList)
 {

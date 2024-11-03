@@ -25,7 +25,6 @@ public class UserController(IMediator mediator) : ControllerBase
     } 
 
     [HttpPost]
-    [Authorize]
     public async Task<IActionResult> AddUser(AddUserCommand cmd)
     {
         var result = await mediator.Send(cmd);

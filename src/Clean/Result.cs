@@ -85,6 +85,13 @@ namespace Clean.Shared
             return result;
         }
 
+        public static Result Failed(params string[] errors)
+        {
+            var result = new Result(false);
+            result.AddError(errors);
+            return result;
+        }
+
         public static Result<T> Ok<T>()
         {
             return new Result<T>(true);
@@ -105,11 +112,6 @@ namespace Clean.Shared
             var result = new Result<T>(false);
             result.AddError(error);
             return result;
-        }
-
-        public static Result<T> Failed<T>(T value)
-        {
-            return new Result<T>(false, value);
         }
 
         public static Result<T> Failed<T>(string error, T value)

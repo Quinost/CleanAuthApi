@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 
 namespace CleanAuth.Application.Commands.Users;
 
@@ -23,5 +24,17 @@ internal sealed class ChangePasswordCommandHandler(IUserRepository userRepositor
         user.Password = passwordHasher.HashPassword(user, request.NewPassword);
 
         return Result.Ok();
+    }
+}
+
+internal sealed class ChangePasswordRequestValidator : AbstractValidator<ChangePasswordRequest>
+{
+    ChangePasswordRequestValidator()
+    {
+        RuleFor(x => x.OldPassword)
+            .NotEmpty().WithMessage("Both password is required");
+        RuleFor(x => x.NewPassword)
+            .NotEmpty().WithMessage("Both password is required")
+            .MinimumLength(5).WithMessage("New password min length: 5");
     }
 }

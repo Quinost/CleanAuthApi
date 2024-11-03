@@ -10,3 +10,4 @@
 - Token blacklist
 - Docker compose
 - Roles
+- FluentValidation

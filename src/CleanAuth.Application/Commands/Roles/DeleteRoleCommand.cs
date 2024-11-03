@@ -1,4 +1,7 @@
-﻿namespace CleanAuth.Application.Commands.Roles;
+﻿using FluentValidation;
+using System.ComponentModel.DataAnnotations;
+
+namespace CleanAuth.Application.Commands.Roles;
 public record DeleteRoleCommand(Guid RoleId) : IRequest<Result>;
 
 internal sealed class DeleteRoleCommandHandler(IRoleRepository roleRepository) : IRequestHandler<DeleteRoleCommand, Result>
@@ -15,5 +18,15 @@ internal sealed class DeleteRoleCommandHandler(IRoleRepository roleRepository) :
 
         await roleRepository.DeleteAsync(role, cancellationToken);
         return Result.Ok();
+    }
+}
+
+internal sealed class DeleteRoleCommandValidator : AbstractValidator<DeleteRoleCommand>
+{
+    DeleteRoleCommandValidator()
+    {
+        RuleFor(x => x.RoleId)
+            .Must(x => x != Guid.Empty)
+            .WithMessage("RoleId is required");
     }
 }

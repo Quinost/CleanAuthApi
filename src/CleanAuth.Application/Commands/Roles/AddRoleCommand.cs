@@ -1,4 +1,6 @@
-﻿namespace CleanAuth.Application.Commands.Roles;
+﻿using FluentValidation;
+
+namespace CleanAuth.Application.Commands.Roles;
 public record AddRoleCommand(string Name) : IRequest<Result>;
 
 internal sealed class AddRoleCommandHandler(IRoleRepository roleRepository) : IRequestHandler<AddRoleCommand, Result>
@@ -15,5 +17,15 @@ internal sealed class AddRoleCommandHandler(IRoleRepository roleRepository) : IR
 
         await roleRepository.AddAsync(role);
         return Result.Ok();
+    }
+}
+
+internal sealed class AddRoleCommandValidator : AbstractValidator<AddRoleCommand>
+{
+    AddRoleCommandValidator()
+    {
+        RuleFor(x => x.Name)
+            .NotEmpty().WithMessage("Name is required")
+            .MinimumLength(2).WithMessage("Minimum length is 2");
     }
 }

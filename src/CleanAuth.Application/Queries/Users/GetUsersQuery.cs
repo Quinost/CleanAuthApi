@@ -10,5 +10,5 @@ internal sealed class GetUsersQueryHandler(IUserRepository userRepository) : IRe
         => Map(await userRepository.GetAllPaginatedAsync(request.Filter, request.PageNumber, request.PageSize, cancellationToken));
 
     private static ICollection<UserDto> Map(ICollection<User> users)
-        => [..users.Select(x => new UserDto(x.Id, x.Username, x.IsActive, x.RoleId, x.Role?.Name))];
+        => [..users.Select(x => new UserDto(x.Id, x.Username, x.IsActive, x.RoleId, x.Role!.Name))];
 }
